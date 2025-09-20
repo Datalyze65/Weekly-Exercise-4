@@ -7,6 +7,10 @@ library(gert)
 
 git_branch_list()
 
+
+
+#~~~~~~~~~~~~~~Q6 ANALYSIS 
+
 #libraries 
 library(readr)
 library(dplyr)
@@ -37,5 +41,45 @@ group_by(year) %>%
   summarise(tota_medals_by_year = sum(total.medals, na.rm = TRUE))
 
 print(yearly_total_medals)
+
+
+
+#Q7 ANALYSIS ~~~~~~~~~~~~~
+#q7a
+ath_del_1992 <- olympics%>%
+  filter(year == 1992) %>%
+  select(country, athletes) %>%
+  arrange(desc(athletes))
+
+print(ath_del_1992)
+
+
+
+
+
+#Q7B
+
+library(ggplot2)
+
+five_countries <- c("United States", "France", "Germany", "Russia", "China")
+
+gold_medals_by_time <- olympics %>%
+  filter(country %in% five_countries) %>%
+  group_by(year, country) %>%
+  summarise(total_gold_medals = sum(gold, na.rm = TRUE), .groups = "drop")
+
+print(gold_medals_by_time)
+
+ggplot(gold_medals_by_time, aes(x = year, y = total_gold_medals, color = country)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 2) +
+  labs(title = "Gold medals by country over time)",
+       x = "Year", y = "Total Gold Medals") +
+  theme_minimal()
+
+
+
+
+
 
 
